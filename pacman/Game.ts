@@ -1,6 +1,7 @@
 import { Board } from "./Board";
 import { Ghost } from "./Ghost";
 import { PacMan } from "./Pacman";
+
 import { ENERGIZER_TIME, GHOSTS_LOCKED_TIME, Position } from "./TypesAndSettings";
 
 //export type InitialGhostTarget = { x: 1, y: 1 } | { x: 1, y: 29 } | { x: 26; y: 1 } | { x: 26; y: 29 };

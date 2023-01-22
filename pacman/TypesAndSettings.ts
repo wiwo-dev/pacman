@@ -2,7 +2,7 @@ export const BOARD_SIZE = {
   x: 28,
   y: 31,
 };
-export const FIELD_SIZE = 28;
+export const FIELD_SIZE = 24;
 export const GHOSTS_LOCKED_TIME = 10; //10
 export const ENERGIZER_TIME = 30;
 
