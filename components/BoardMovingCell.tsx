@@ -1,10 +1,10 @@
 import React, { ReactNode } from "react";
 import { motion } from "framer-motion";
-import { Position } from "@/pacman/pacman";
+import { Position } from "@/pacman/TypesAndSettings";
 
 type Props = { position: Position; duration?: number; children?: ReactNode; className?: string };
 
-import { FIELD_SIZE } from "@/pacman/pacman";
+import { FIELD_SIZE } from "@/pacman/TypesAndSettings";
 
 export default function BoardMovingCell({ position, duration = 0.3, children, className }: Props): JSX.Element {
   return (

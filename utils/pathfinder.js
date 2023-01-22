@@ -106,7 +106,7 @@ export function astar({ cols = 5, rows = 5, startPos, endPos, obstacles }) {
           path.push(temp.parent);
           temp = temp.parent;
         }
-        console.log("DONE!");
+        //DONE!
         // return the traced path
         return path.reverse();
       }

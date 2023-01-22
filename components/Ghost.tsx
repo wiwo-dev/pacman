@@ -1,9 +1,9 @@
 import { DirectionsType } from "@/pacman";
 import React from "react";
 
-type Props = { size: number; direction: DirectionsType; color: string };
+type Props = { size: number; color: string };
 
-export default function Ghost({ size = 50, direction = "R", color = "green" }: Props) {
+export default function Ghost({ size = 50, color = "green" }: Props) {
   //console.log(color);
   return (
     <div className="">

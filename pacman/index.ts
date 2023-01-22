@@ -1,2 +1,2 @@
-export { BOARD_SIZE, FIELD_SIZE } from "./pacman";
-export type { DirectionsType } from "./pacman";
+export { BOARD_SIZE, FIELD_SIZE } from "./TypesAndSettings";
+export type { DirectionsType } from "./TypesAndSettings";

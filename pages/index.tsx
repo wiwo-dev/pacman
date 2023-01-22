@@ -5,9 +5,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 
 import { BOARD_SIZE, FIELD_SIZE } from "@/pacman";
-import { DirectionsType } from "@/pacman";
-import { Game, PacMan, Point, Wall } from "@/pacman/pacman";
 
+import { Game } from "@/pacman/Game";
 const game = new Game();
 
 import Walls from "@/components/Walls";
@@ -18,11 +17,10 @@ import Board from "@/components/Board";
 import BoardCell from "@/components/BoardCell";
 import BoardMovingCell from "@/components/BoardMovingCell";
 import BoardGrid from "@/components/BoardGrid";
+import GhostPath from "@/components/GhostPath";
 
 export default function Home() {
-  const [position, setPosition] = useState(game.pacMan.getPosition());
-  const [ghostPosition, setGhostPosition] = useState(game.ghosts[0].getPosition());
-  const [pills, setPills] = useState(game.board.pills);
+  const [pacmanPosition, setPacmanPosition] = useState(game.pacMan.getPosition());
   const [points, setPoints] = useState(game.points);
   const [pacManDirection, setPacManDirection] = useState(game.pacMan.direction);
   const { direction, paused } = useKeyboardControl({
@@ -34,24 +32,18 @@ export default function Home() {
     onSpace: () => {},
   });
 
+  const [ghostsPathsVisible, setghostsPathsVisible] = useState(true);
+
   const makeStep = () => {
     if (paused) return;
-    game.pacMan.move(game.pacMan.direction);
-    setPosition({ ...game.pacMan.getPosition() });
-    setPills([...game.board.pills]);
-    setPoints(game.points);
+    if (game.status === "KILLED") return;
     game.makeGameStep();
-    setGhostPosition(game.ghosts[0].getPosition());
+    setPacmanPosition({ ...game.pacMan.getPosition() });
+    setPoints(game.points);
+    setPacManDirection(game.pacMan.direction);
   };
 
   const setInterval = useInterval(makeStep, 300);
-
-  const testPath = [
-    { x: 1, y: 2 },
-    { x: 2, y: 2 },
-    { x: 3, y: 2 },
-    { x: 4, y: 2 },
-  ];
 
   return (
     <>
@@ -62,46 +54,42 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="bg-pink-600">
-        {position.x}:{position.y} || Points: {points}
+        {pacmanPosition.x}:{pacmanPosition.y} || Points: {points} || Lives: {game.livesRemaining}/3 || {game.status}
       </main>
+      <div className="bg-yellow-400">
+        <button onClick={() => setghostsPathsVisible(!ghostsPathsVisible)}>PATHS ON/OFF</button>
+      </div>
 
       <Board>
         <BoardGrid />
-        <BoardMovingCell position={position}>
+        <BoardMovingCell position={pacmanPosition}>
+          {/* <Pacman size={FIELD_SIZE} direction={game.pacMan.direction} /> */}
           <Pacman size={FIELD_SIZE} direction={pacManDirection} />
         </BoardMovingCell>
-        <BoardMovingCell position={ghostPosition} duration={0.6}>
-          <Ghost size={FIELD_SIZE} direction={"R"} color="green" />
-        </BoardMovingCell>
+        {/* duration 0.3 for normal and 0.6 for slower */}
+        {game.ghosts.map((el, ind) => (
+          <BoardMovingCell
+            key={ind}
+            position={el.position}
+            duration={el.status === "EATEN" ? 0.3 : game.status === "ENERGIZER" ? 0.6 : 0.3}>
+            <Ghost size={FIELD_SIZE} color={el.color} />
+          </BoardMovingCell>
+        ))}
         <Walls walls={game.board.walls} />
-        <Pills pills={pills} />
-
-        {game.ghosts[0].path.map((el, ind) => (
-          <div
-            key={ind}
-            className={`absolute flex justify-center items-center`}
-            style={{
-              width: FIELD_SIZE,
-              height: FIELD_SIZE,
-              left: el.x * FIELD_SIZE,
-              top: el.y * FIELD_SIZE,
-            }}>
-            <div className="w-1/2 h-1/2" style={{ backgroundColor: game.ghosts[0].color }}></div>
+        <Pills pills={game.board.pills} />
+        {ghostsPathsVisible && (
+          <>
+            {game.ghosts.map((el, ind) => (
+              <GhostPath key={ind} path={el.path} color={el.color} />
+            ))}
+          </>
+        )}
+        {game.status === "GAME_OVER" && (
+          <div className=" absolute p-8 bg-gray-800 bg-opacity-80 w-full h-full flex justify-center items-center flex-col">
+            <p className="animate-pulse text-5xl font-extrabold text-red-500">GAME OVER</p>
+            <p className="text-2xl font-extrabold text-red-500">POINTS: {game.points}</p>
           </div>
-        ))}
-        {game.ghosts[1].path.map((el, ind) => (
-          <div
-            key={ind}
-            className={`absolute flex justify-center items-center`}
-            style={{
-              width: FIELD_SIZE,
-              height: FIELD_SIZE,
-              left: el.x * FIELD_SIZE,
-              top: el.y * FIELD_SIZE,
-            }}>
-            <div className="w-1/2 h-1/2" style={{ backgroundColor: game.ghosts[1].color }}></div>
-          </div>
-        ))}
+        )}
       </Board>
     </>
   );

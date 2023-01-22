@@ -1,4 +1,4 @@
-import { BOARD_SIZE } from "@/pacman/pacman";
+import { BOARD_SIZE } from "@/pacman/TypesAndSettings";
 import React from "react";
 import BoardCell from "./BoardCell";
 

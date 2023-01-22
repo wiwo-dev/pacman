@@ -1,4 +1,4 @@
-import { FIELD_SIZE, Wall, WallType } from "@/pacman/pacman";
+import { FIELD_SIZE, Wall, WallType } from "@/pacman/TypesAndSettings";
 import React from "react";
 
 type Props = { walls: Wall[] };
