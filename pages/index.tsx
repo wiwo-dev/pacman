@@ -4,7 +4,7 @@ import useKeyboardControl from "@/utils/useKeyboardControl";
 import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 
-import { BOARD_SIZE, FIELD_SIZE } from "@/pacman";
+import { BOARD_SIZE, DirectionsType, FIELD_SIZE } from "@/pacman";
 
 import { Game } from "@/pacman/Game";
 const game = new Game();
@@ -18,15 +18,21 @@ import BoardCell from "@/components/BoardCell";
 import BoardMovingCell from "@/components/BoardMovingCell";
 import BoardGrid from "@/components/BoardGrid";
 import GhostPath from "@/components/GhostPath";
+import TouchScreenController from "@/components/TouchScreenController";
 
 export default function Home() {
   const [pacmanPosition, setPacmanPosition] = useState(game.pacMan.getPosition());
   const [points, setPoints] = useState(game.points);
   const [pacManDirection, setPacManDirection] = useState(game.pacMan.direction);
+
+  const changeDirection = (intendedDirection: DirectionsType) => {
+    game.pacMan.tryToChangeDirection(intendedDirection);
+    setPacManDirection(game.pacMan.direction);
+  };
+
   const { direction, paused } = useKeyboardControl({
     onChange(intendedDirection) {
-      game.pacMan.tryToChangeDirection(intendedDirection);
-      setPacManDirection(game.pacMan.direction);
+      changeDirection(intendedDirection);
     },
     onEscape: () => {},
     onSpace: () => {},
@@ -90,6 +96,7 @@ export default function Home() {
             <p className="text-2xl font-extrabold text-red-500">POINTS: {game.points}</p>
           </div>
         )}
+        <TouchScreenController changeDirection={changeDirection} />
       </Board>
     </>
   );

@@ -1,4 +1,5 @@
-import { FIELD_SIZE, Pill, PillType } from "@/pacman/TypesAndSettings";
+import { Pill } from "@/pacman/Pill";
+import { FIELD_SIZE, PillType } from "@/pacman/TypesAndSettings";
 import React from "react";
 
 type Props = { pills: Pill[] };
