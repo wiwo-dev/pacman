@@ -1,6 +1,6 @@
 import { Board } from "./Board";
 import { Ghost } from "./Ghost";
-import { PacMan } from "./Pacman";
+import { Pacman } from "./Pacman";
 
 import { ENERGIZER_TIME, GHOSTS_LOCKED_TIME, Position } from "./TypesAndSettings";
 
@@ -11,13 +11,13 @@ export class Game {
   livesRemaining: number = 3;
   points: number = 0;
   board: Board;
-  pacMan: PacMan;
+  pacMan: Pacman;
   ghosts: Ghost[] = [];
   constructor() {
     //this.status = "RUNNING";
     this.status = "GHOSTS_LOCKED";
     this.board = new Board();
-    this.pacMan = new PacMan(13, 23, this.board, this);
+    this.pacMan = new Pacman(13, 23, this.board, this);
     this.ghosts.push(new Ghost(14, 14, this.board, this, "#FCB5FF", { x: 1, y: 1 }, "PINK"));
     this.ghosts.push(new Ghost(14, 14, this.board, this, "#00FFFF", { x: 1, y: 29 }, "BLUE"));
     this.ghosts.push(new Ghost(13, 14, this.board, this, "#FF0000", { x: 26, y: 1 }, "RED"));
@@ -102,7 +102,7 @@ export class Game {
     //clear the game and start again
     this.status = "GHOSTS_LOCKED";
     this.board = new Board();
-    this.pacMan = new PacMan(13, 23, this.board, this);
+    this.pacMan = new Pacman(13, 23, this.board, this);
     this.ghosts = [];
     this.remainingLockedTime = GHOSTS_LOCKED_TIME;
     this.ghosts.push(new Ghost(14, 14, this.board, this, "#FCB5FF", { x: 1, y: 1 }, "PINK"));

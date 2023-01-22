@@ -3,7 +3,7 @@ import { Game } from "./Game";
 import { Point } from "./Point";
 import { DirectionsType, PillType, Position, keepPositionInBounds } from "./TypesAndSettings";
 
-export class PacMan extends Point {
+export class Pacman extends Point {
   board: Board;
   direction: DirectionsType = "R";
   game: Game;
