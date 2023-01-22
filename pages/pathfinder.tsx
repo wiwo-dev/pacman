@@ -49,7 +49,7 @@ export default function Page({}: Props) {
   );
 }
 
-const GridPoint = ({ x, y, color = "blue" }) => {
+const GridPoint = ({ x, y, color = "blue" }: { x: number; y: number; color?: string }) => {
   return (
     <div
       className="absolute w-[20px] h-[20px]"
