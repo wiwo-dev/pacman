@@ -28,6 +28,7 @@ export default function Home() {
   const changeDirection = (intendedDirection: DirectionsType) => {
     game.pacMan.tryToChangeDirection(intendedDirection);
     setPacManDirection(game.pacMan.direction);
+    console.log("CHANGE");
   };
 
   const { direction, paused } = useKeyboardControl({

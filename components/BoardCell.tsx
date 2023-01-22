@@ -1,5 +1,4 @@
 import React, { ReactNode } from "react";
-import { motion } from "framer-motion";
 import { Position } from "@/pacman/TypesAndSettings";
 
 type Props = { position: Position; children?: ReactNode; className: string };

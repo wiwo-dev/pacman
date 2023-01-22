@@ -1,4 +1,3 @@
-import { DirectionsType } from "@/pacman";
 import React from "react";
 
 type Props = { size: number; color: string };
