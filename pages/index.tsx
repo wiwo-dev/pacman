@@ -1,10 +1,10 @@
 import Head from "next/head";
 import useInterval from "@/utils/useInterval";
 import useKeyboardControl from "@/utils/useKeyboardControl";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 
-import { BOARD_SIZE, DirectionsType, FIELD_SIZE } from "@/pacman";
+import { BOARD_SIZE, DirectionsType } from "@/pacman";
 
 import { Game } from "@/pacman/Game";
 const game = new Game();
@@ -20,16 +20,19 @@ import BoardGrid from "@/components/BoardGrid";
 import GhostPath from "@/components/GhostPath";
 import TouchScreenController from "@/components/TouchScreenController";
 import { SPEED_MAIN, SPEED_MOVING_CELL_NORMAL, SPEED_MOVING_CELL_SLOW } from "@/pacman/TypesAndSettings";
+import { PacmanContext } from "@/utils/Context";
 
 export default function Home() {
   const [pacmanPosition, setPacmanPosition] = useState(game.pacMan.getPosition());
   const [points, setPoints] = useState(game.points);
   const [pacManDirection, setPacManDirection] = useState(game.pacMan.direction);
 
+  const { windowWidth, windowHeight, fieldSize } = useContext(PacmanContext);
+  const FIELD_SIZE = fieldSize;
+
   const changeDirection = (intendedDirection: DirectionsType) => {
     game.pacMan.tryToChangeDirection(intendedDirection);
     setPacManDirection(game.pacMan.direction);
-    console.log("CHANGE");
   };
 
   const { direction, paused } = useKeyboardControl({
@@ -66,9 +69,10 @@ export default function Home() {
         <section className="my-2 flex justify-between gap-8 items-center md:px-[10%]">
           <div className="w-1/2">
             <div className="flex justify-center gap-5 py-2">
-              {[...Array(game.livesRemaining)].map((el, ind) => (
-                <img key={ind} src="pacman/pacman-2.png" className="w-[30px] h-[30px]" />
-              ))}
+              {game.livesRemaining &&
+                [...Array(game.livesRemaining)].map((el, ind) => (
+                  <img key={ind} src="pacman/pacman-2.png" className="w-[30px] h-[30px]" />
+                ))}
             </div>
             <div className="flex justify-center py-2">
               <p className="text-white font-mono font-extrabold text-xl">SCORE: {points}</p>
@@ -78,10 +82,10 @@ export default function Home() {
             <button
               className="bg-yellow-500 hover:bg-yellow-600 py-2 px-4 rounded-full"
               onClick={() => setghostsPathsVisible(!ghostsPathsVisible)}>
-              PATHS ON/OFF
+              {ghostsPathsVisible ? "HIDE PATHS" : "SHOW PATHS"}
             </button>
             <p className="text-sm">
-              PM POS: {pacmanPosition.x}|{pacmanPosition.y}
+              POS: {pacmanPosition.x}|{pacmanPosition.y}
             </p>
             <p className="text-sm">{game.status}</p>
           </div>
@@ -116,13 +120,7 @@ export default function Home() {
                     ? SPEED_MOVING_CELL_SLOW
                     : SPEED_MOVING_CELL_NORMAL
                 }>
-                <Ghost
-                  size={FIELD_SIZE}
-                  color={el.color}
-                  name={el.name}
-                  isAlive={el.status === "ALIVE"}
-                  isEnergizer={game.status === "ENERGIZER"}
-                />
+                <Ghost size={FIELD_SIZE} color={el.color} name={el.name} status={el.status} />
               </BoardMovingCell>
             ))}
             {game.status === "GAME_OVER" && (

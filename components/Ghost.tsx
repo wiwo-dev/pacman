@@ -1,12 +1,19 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import useInterval from "@/utils/useInterval";
+import { GhostStatus } from "@/pacman/Ghost";
 
-type Props = { size: number; color: string; name: string; isAlive: boolean; isEnergizer: boolean };
+type Props = { size: number; color: string; name: string; status: GhostStatus };
 
-export default function Ghost({ size = 50, color = "green", name, isAlive, isEnergizer }: Props) {
-  const imageUrl1 = `ghosts/ghost-${isEnergizer ? "energized" : isAlive ? name : "killed"}.png`;
-  const imageUrl2 = `ghosts/ghost-${isEnergizer ? "energized" : isAlive ? name : "killed"}-2.png`;
+export default function Ghost({ size = 50, color = "green", name, status }: Props) {
+  let imageUrl1 = `ghosts/ghost-${name}-1.png`;
+  let imageUrl2 = `ghosts/ghost-${name}-2.png`;
+
+  if (status === "EATEN" || status === "ENERGIZER") {
+    imageUrl1 = `ghosts/ghost-${status}-1.png`;
+    imageUrl2 = `ghosts/ghost-${status}-2.png`;
+  }
+
   const [image, setImage] = useState(imageUrl1);
   useInterval(() => {
     if (image === imageUrl1) setImage(imageUrl2);

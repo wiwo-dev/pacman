@@ -81,8 +81,6 @@ export function astar({ cols = 5, rows = 5, startPos, endPos, obstacles }) {
     end = grid[endPos.x][endPos.y];
 
     openSet.push(start);
-
-    //console.log(grid);
   }
 
   //A star search implementation

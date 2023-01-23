@@ -1,10 +1,10 @@
 import { astar } from "@/utils/pathfinder";
 import { Board } from "./Board";
 import { Game } from "./Game";
-import { BOARD_SIZE, DirectionsType, Position, keepPositionInBounds } from "./TypesAndSettings";
+import { BOARD_SIZE, DirectionsType, Position, keepPositionInBounds, GHOSTS_LOCKED_TIME } from "./TypesAndSettings";
 import { Point } from "./Point";
 
-type GhostStatus = "ALIVE" | "EATEN";
+export type GhostStatus = "ALIVE" | "EATEN" | "GOING_TO_CORNER" | "ENERGIZER" | "LOCKED";
 
 export class Ghost extends Point {
   color: string;
@@ -12,7 +12,8 @@ export class Ghost extends Point {
   direction: DirectionsType = "R";
   game: Game;
   path: Position[];
-  status: GhostStatus = "ALIVE";
+  status: GhostStatus = "LOCKED";
+  lockedDuration: number = GHOSTS_LOCKED_TIME;
 
   constructor(
     x: number,
@@ -20,7 +21,7 @@ export class Ghost extends Point {
     board: Board,
     game: Game,
     color: string,
-    public initialTarget: Position,
+    public cornerTarget: Position,
     public name: string
   ) {
     super(x, y);
@@ -72,12 +73,26 @@ export class Ghost extends Point {
   speedCycle: number = 0;
 
   move() {
-    if (this.status === "EATEN") {
-      this.moveEnergizer();
-      return;
+    switch (this.status) {
+      case "EATEN":
+        this.moveEaten();
+        break;
+      case "GOING_TO_CORNER":
+        this.moveToCorner();
+        if (this.position.x === this.cornerTarget.x && this.position.y === this.cornerTarget.y) {
+          this.status = "ALIVE";
+        }
+        break;
+      case "ENERGIZER":
+        this.moveEnergizer();
+        break;
+      case "LOCKED":
+        this.moveLocked();
+        break;
+      default:
+        this.moveNormal();
+        break;
     }
-
-    this.moveNormal();
   }
 
   //normal state
@@ -94,7 +109,10 @@ export class Ghost extends Point {
     if (nextPosition) this.setPosition(nextPosition);
   }
 
-  //energizer or locked state state
+  moveToCorner() {
+    this.moveNormal(this.cornerTarget);
+  }
+
   moveRandom() {
     this.clearShortestPath();
     //change direction sometimes
@@ -103,13 +121,11 @@ export class Ghost extends Point {
     if (this.board.checkIfWall(nextPosition)) this.direction = this.getRandomPossibleDirection();
     else {
       this.setPosition(this.calculateNextPosition(this.direction));
-      //this.findShortestPath();
     }
   }
 
   moveEnergizer() {
     //speedcycle is to slow down the ghost in energizer mode
-
     if (this.speedCycle > 0) {
       this.moveRandom();
       this.speedCycle = 0;
@@ -119,14 +135,17 @@ export class Ghost extends Point {
       this.position.y === this.game.pacMan.position.y &&
       this.status === "EATEN"
     ) {
-      this.setEatenStatus();
+      this.status = "EATEN";
     }
   }
 
   moveEaten() {
     for (let i = 0; i < 3; i++) {
       this.moveNormal({ x: 14, y: 14 });
-      if (this.position.x === 14 && this.position.y === 14) this.status = "ALIVE";
+      if (this.position.x === 14 && this.position.y === 14) {
+        console.log(this.name, "reached base");
+        this.status = "LOCKED";
+      }
     }
   }
 
@@ -136,6 +155,11 @@ export class Ghost extends Point {
   }
 
   moveLocked() {
+    this.lockedDuration--;
+    if (this.lockedDuration === 0) {
+      this.status = "GOING_TO_CORNER";
+      this.lockedDuration = GHOSTS_LOCKED_TIME;
+    }
     this.clearShortestPath();
     const fieldsAllowedInLocked = [
       { x: 12, y: 14 },
@@ -146,7 +170,6 @@ export class Ghost extends Point {
     if (Math.random() < 0.5) this.direction = "R";
     else this.direction = "L";
     let nextPosition = this.calculateNextPosition(this.direction);
-
     while (fieldsAllowedInLocked.findIndex((el) => el.x === nextPosition.x && el.y === nextPosition.y) < 0) {
       this.direction = this.direction === "L" ? "R" : "L";
       nextPosition = this.calculateNextPosition(this.direction);
@@ -172,6 +195,9 @@ export class Ghost extends Point {
 
   setEatenStatus() {
     this.status = "EATEN";
-    console.log(this.name, " IS EATEN");
+  }
+
+  endEnergizerGhostStatus() {
+    if (this.status === "ENERGIZER") this.status = "ALIVE";
   }
 }

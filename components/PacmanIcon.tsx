@@ -33,8 +33,8 @@ export default function PacmanIcon({ state, size }: Props) {
     return (
       <svg width={size} height={size} viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
-          fill-rule="evenodd"
-          clip-rule="evenodd"
+          fillRule="evenodd"
+          clipRule="evenodd"
           d="M9.5 0H20.5V2H22V5H19V7H17V9H15V11H13V13V14H10V17H13V19H15V21H17V23H19V26H22V28H20V30H10V28H5V26H3V21H0.5V9H3V5H5V2H9.5V0Z"
           fill="#FFFF00"
         />

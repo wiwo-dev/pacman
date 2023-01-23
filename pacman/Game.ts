@@ -4,8 +4,6 @@ import { Pacman } from "./Pacman";
 
 import { ENERGIZER_TIME, GHOSTS_LOCKED_TIME, Position } from "./TypesAndSettings";
 
-//export type InitialGhostTarget = { x: 1, y: 1 } | { x: 1, y: 29 } | { x: 26; y: 1 } | { x: 26; y: 29 };
-
 export class Game {
   status: "GHOSTS_LOCKED" | "GHOSTS_GOING_TO_CORNERS" | "RUNNING" | "ENERGIZER" | "KILLED" | "GAME_OVER";
   livesRemaining: number = 3;
@@ -14,7 +12,6 @@ export class Game {
   pacMan: Pacman;
   ghosts: Ghost[] = [];
   constructor() {
-    //this.status = "RUNNING";
     this.status = "GHOSTS_LOCKED";
     this.board = new Board();
     this.pacMan = new Pacman(13, 23, this.board, this);
@@ -33,54 +30,38 @@ export class Game {
     this.remainingEnergizerTime = ENERGIZER_TIME;
   }
 
-  endEnergizer() {
-    this.status = "RUNNING";
-    this.remainingEnergizerTime = ENERGIZER_TIME;
-  }
-
   remainingEnergizerTime: number = ENERGIZER_TIME;
   remainingLockedTime: number = GHOSTS_LOCKED_TIME;
   makeGameStep() {
     this.pacMan.move();
-    //GHOSTS_LOCKED state
-    if (this.status === "GHOSTS_LOCKED") {
-      this.remainingLockedTime--;
-      if (!this.remainingLockedTime) {
-        this.endStatusGhostsLocked();
-      }
-      for (const ghost of this.ghosts) {
-        ghost.moveLocked();
-      }
-    }
-
-    //GHOSTS_GOING_TO_CORNERS
-    if (this.status === "GHOSTS_GOING_TO_CORNERS") {
-      for (const ghost of this.ghosts) {
-        ghost.moveNormal(ghost.initialTarget);
-        if (ghost.position.x === ghost.initialTarget.x && ghost.position.y === ghost.initialTarget.y) {
-          //end of state
-          this.endStatusGhostsGoingToCorners();
+    for (const ghost of this.ghosts) ghost.move();
+    switch (this.status) {
+      case "GHOSTS_LOCKED":
+        this.remainingLockedTime--;
+        if (!this.remainingLockedTime) this.status = "GHOSTS_GOING_TO_CORNERS";
+        break;
+      case "GHOSTS_GOING_TO_CORNERS":
+        for (const ghost of this.ghosts) {
+          if (ghost.position.x === ghost.cornerTarget.x && ghost.position.y === ghost.cornerTarget.y) {
+            //end of state
+            this.status = "RUNNING";
+            this.ghosts.forEach((ghost) => (ghost.status = "ALIVE"));
+          }
         }
-      }
-    }
+        break;
+      case "ENERGIZER":
+        this.remainingEnergizerTime--;
+        if (!this.remainingEnergizerTime) {
+          this.status = "RUNNING";
+          for (const ghost of this.ghosts) {
+            ghost.endEnergizerGhostStatus();
+          }
+          this.remainingEnergizerTime = ENERGIZER_TIME;
+        }
+        break;
 
-    //RUNNING state
-    if (this.status === "RUNNING") {
-      for (const ghost of this.ghosts) {
-        if (ghost.isGhostEaten()) ghost.moveEaten();
-        else ghost.move();
-      }
-    }
-
-    //energizer state
-    if (this.status === "ENERGIZER") {
-      for (const ghost of this.ghosts) {
-        if (ghost.isGhostEaten()) ghost.moveEaten();
-        else ghost.moveEnergizer();
-      }
-
-      this.remainingEnergizerTime--;
-      if (!this.remainingEnergizerTime) this.endEnergizer();
+      default:
+        break;
     }
   }
 
@@ -117,13 +98,5 @@ export class Game {
 
   setStatusGhostsLocked() {
     this.status = "GHOSTS_LOCKED";
-  }
-
-  endStatusGhostsLocked() {
-    this.status = "GHOSTS_GOING_TO_CORNERS";
-  }
-
-  endStatusGhostsGoingToCorners() {
-    this.status = "RUNNING";
   }
 }

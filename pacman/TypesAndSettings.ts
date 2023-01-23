@@ -12,6 +12,11 @@ export const SPEED_MAIN = 280;
 export const SPEED_MOVING_CELL_NORMAL = SPEED_MAIN * 0.001; //0.3
 export const SPEED_MOVING_CELL_SLOW = SPEED_MAIN * 0.002; //0.6
 
+//points
+export const POINTS_FOR_GHOST = 10;
+export const POINTS_FOR_BASIC_PILL = 1;
+export const POINTS_FOR_ENERGIZER_PILL = 5;
+
 export type DirectionsType = "U" | "D" | "L" | "R";
 export type WallType = "horizontal" | "vertical" | "tl" | "tr" | "bl" | "br";
 export type Position = { x: number; y: number };
