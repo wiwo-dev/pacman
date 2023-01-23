@@ -19,6 +19,7 @@ import BoardMovingCell from "@/components/BoardMovingCell";
 import BoardGrid from "@/components/BoardGrid";
 import GhostPath from "@/components/GhostPath";
 import TouchScreenController from "@/components/TouchScreenController";
+import { SPEED_MAIN, SPEED_MOVING_CELL_NORMAL, SPEED_MOVING_CELL_SLOW } from "@/pacman/TypesAndSettings";
 
 export default function Home() {
   const [pacmanPosition, setPacmanPosition] = useState(game.pacMan.getPosition());
@@ -50,7 +51,7 @@ export default function Home() {
     setPacManDirection(game.pacMan.direction);
   };
 
-  const setInterval = useInterval(makeStep, 300);
+  const setInterval = useInterval(makeStep, SPEED_MAIN);
 
   return (
     <>
@@ -60,45 +61,75 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="bg-pink-600">
-        {pacmanPosition.x}:{pacmanPosition.y} || Points: {points} || Lives: {game.livesRemaining}/3 || {game.status}
-      </main>
-      <div className="bg-yellow-400">
-        <button onClick={() => setghostsPathsVisible(!ghostsPathsVisible)}>PATHS ON/OFF</button>
-      </div>
-
-      <Board>
-        <BoardGrid />
-        <BoardMovingCell position={pacmanPosition}>
-          {/* <Pacman size={FIELD_SIZE} direction={game.pacMan.direction} /> */}
-          <Pacman size={FIELD_SIZE} direction={pacManDirection} />
-        </BoardMovingCell>
-        {/* duration 0.3 for normal and 0.6 for slower */}
-        {game.ghosts.map((el, ind) => (
-          <BoardMovingCell
-            key={ind}
-            position={el.position}
-            duration={el.status === "EATEN" ? 0.3 : game.status === "ENERGIZER" ? 0.6 : 0.3}>
-            <Ghost size={FIELD_SIZE} color={el.color} />
-          </BoardMovingCell>
-        ))}
-        <Walls walls={game.board.walls} />
-        <Pills pills={game.board.pills} />
-        {ghostsPathsVisible && (
-          <>
-            {game.ghosts.map((el, ind) => (
-              <GhostPath key={ind} path={el.path} color={el.color} />
-            ))}
-          </>
-        )}
-        {game.status === "GAME_OVER" && (
-          <div className=" absolute p-8 bg-gray-800 bg-opacity-80 w-full h-full flex justify-center items-center flex-col">
-            <p className="animate-pulse text-5xl font-extrabold text-red-500">GAME OVER</p>
-            <p className="text-2xl font-extrabold text-red-500">POINTS: {game.points}</p>
+      <main className="max-w-screen-lg mx-auto bg-[#020216]">
+        <div className="bg-pink-600">
+          {pacmanPosition.x}:{pacmanPosition.y} || Points: {points} || Lives: {game.livesRemaining}/3 || {game.status}
+        </div>
+        <div className="bg-yellow-400">
+          <button onClick={() => setghostsPathsVisible(!ghostsPathsVisible)}>PATHS ON/OFF</button>
+        </div>
+        <section className="my-2 flex justify-center">
+          <div>
+            <div className="flex justify-center gap-5 py-2">
+              {[...Array(game.livesRemaining)].map((el, ind) => (
+                <img key={ind} src="pacman/pacman-2.png" className="w-[30px] h-[30px]" />
+              ))}
+            </div>
+            <div className="flex justify-center py-2">
+              <p className="text-white font-mono font-extrabold text-xl">SCORE: {points}</p>
+            </div>
           </div>
-        )}
-        <TouchScreenController changeDirection={changeDirection} />
-      </Board>
+          <div className="text-white">fdfsf</div>
+        </section>
+
+        <main className="bg-[#020216] flex justify-center">
+          <Board>
+            {/* <BoardGrid /> */}
+            {/* duration 0.3 for normal and 0.6 for slower */}
+            {/* <Walls walls={game.board.walls} /> */}
+            <Pills pills={game.board.pills} />
+            <BoardMovingCell position={pacmanPosition}>
+              {/* <Pacman size={FIELD_SIZE} direction={game.pacMan.direction} /> */}
+              <Pacman size={FIELD_SIZE} direction={pacManDirection} />
+            </BoardMovingCell>
+
+            {ghostsPathsVisible && (
+              <>
+                {game.ghosts.map((el, ind) => (
+                  <GhostPath key={ind} path={el.path} color={el.color} />
+                ))}
+              </>
+            )}
+            {game.ghosts.map((el, ind) => (
+              <BoardMovingCell
+                key={ind}
+                position={el.position}
+                duration={
+                  el.status === "EATEN"
+                    ? SPEED_MOVING_CELL_NORMAL
+                    : game.status === "ENERGIZER"
+                    ? SPEED_MOVING_CELL_SLOW
+                    : SPEED_MOVING_CELL_NORMAL
+                }>
+                <Ghost
+                  size={FIELD_SIZE}
+                  color={el.color}
+                  name={el.name}
+                  isAlive={el.status === "ALIVE"}
+                  isEnergizer={game.status === "ENERGIZER"}
+                />
+              </BoardMovingCell>
+            ))}
+            {game.status === "GAME_OVER" && (
+              <div className=" absolute p-8 bg-gray-800 bg-opacity-80 w-full h-full flex justify-center items-center flex-col">
+                <p className="animate-pulse text-5xl font-extrabold text-red-500">GAME OVER</p>
+                <p className="text-2xl font-extrabold text-red-500">POINTS: {game.points}</p>
+              </div>
+            )}
+            {/* <TouchScreenController changeDirection={changeDirection} /> */}
+          </Board>
+        </main>
+      </main>
     </>
   );
 }

@@ -16,7 +16,7 @@ export default function GhostPath({ path, color }: Props) {
             left: el.x * FIELD_SIZE,
             top: el.y * FIELD_SIZE,
           }}>
-          <div className="w-1/2 h-1/2 backdrop-opacity-75" style={{ backgroundColor: color }}></div>
+          <div className="w-1/3 h-1/3 backdrop-opacity-75" style={{ backgroundColor: color }}></div>
         </div>
       ))}
     </>

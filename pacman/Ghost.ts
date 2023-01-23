@@ -108,10 +108,19 @@ export class Ghost extends Point {
   }
 
   moveEnergizer() {
+    //speedcycle is to slow down the ghost in energizer mode
+
     if (this.speedCycle > 0) {
       this.moveRandom();
       this.speedCycle = 0;
     } else this.speedCycle++;
+    if (
+      this.position.x === this.game.pacMan.position.x &&
+      this.position.y === this.game.pacMan.position.y &&
+      this.status === "EATEN"
+    ) {
+      this.setEatenStatus();
+    }
   }
 
   moveEaten() {

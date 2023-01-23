@@ -5,20 +5,6 @@ import React from "react";
 type Props = { pills: Pill[] };
 
 function Pills({ pills }: Props) {
-  const getStyleForPillType = (pillType: PillType): React.CSSProperties => {
-    switch (pillType) {
-      case "energizer":
-        return { width: `${FIELD_SIZE * 0.8}px`, height: `${FIELD_SIZE * 0.8}px` };
-        break;
-      case "basic":
-        return { width: `${FIELD_SIZE * 0.3}px`, height: `${FIELD_SIZE * 0.3}px` };
-        break;
-      default:
-        return {};
-        break;
-    }
-  };
-
   const classNamesForPills = "rounded-md bg-blue-600";
 
   const getComponentForPill = (pillType: PillType) => {
@@ -26,14 +12,14 @@ function Pills({ pills }: Props) {
       case "energizer":
         return (
           <div
-            className="rounded-md bg-pink-300"
-            style={{ width: `${FIELD_SIZE * 0.8}px`, height: `${FIELD_SIZE * 0.8}px` }}></div>
+            className="rounded-full bg-pink-300"
+            style={{ width: `${FIELD_SIZE * 0.7}px`, height: `${FIELD_SIZE * 0.7}px` }}></div>
         );
       case "basic":
         return (
           <div
             className="rounded-md bg-pink-300"
-            style={{ width: `${FIELD_SIZE * 0.3}px`, height: `${FIELD_SIZE * 0.3}px` }}></div>
+            style={{ width: `${FIELD_SIZE * 0.2}px`, height: `${FIELD_SIZE * 0.2}px` }}></div>
         );
       default:
         return <div></div>;

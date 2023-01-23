@@ -10,6 +10,8 @@ export default function Board({ children }: Props) {
       style={{
         width: BOARD_SIZE.x * FIELD_SIZE,
         height: BOARD_SIZE.y * FIELD_SIZE,
+        backgroundImage: "url(board.png)",
+        backgroundSize: "cover",
       }}>
       {children}
     </div>
