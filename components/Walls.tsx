@@ -1,23 +1,13 @@
 import { FIELD_SIZE, WallType } from "@/pacman/TypesAndSettings";
 import { Wall } from "@/pacman/Wall";
-import React from "react";
+import { PacmanContext } from "@/utils/Context";
+import React, { useContext } from "react";
 
 type Props = { walls: Wall[] };
 
 function Walls({ walls }: Props) {
-  const getStyleForWall = (wallType: WallType): React.CSSProperties => {
-    switch (wallType) {
-      case "horizontal":
-        return { width: `${FIELD_SIZE}px`, height: `${FIELD_SIZE / 2}px` };
-        break;
-      case "vertical":
-        return { width: `${FIELD_SIZE / 2}px`, height: `${FIELD_SIZE}px` };
-        break;
-      default:
-        return {};
-        break;
-    }
-  };
+  const { fieldSize } = useContext(PacmanContext);
+  const FIELD_SIZE = fieldSize;
 
   const getComponentForWall = (wallType: WallType) => {
     switch (wallType) {

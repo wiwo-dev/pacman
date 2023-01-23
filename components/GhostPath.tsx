@@ -1,9 +1,12 @@
 import { FIELD_SIZE, Position } from "@/pacman/TypesAndSettings";
-import React from "react";
+import { PacmanContext } from "@/utils/Context";
+import React, { useContext } from "react";
 
 type Props = { path: Position[]; color: string };
 
 export default function GhostPath({ path, color }: Props) {
+  const { fieldSize } = useContext(PacmanContext);
+  const FIELD_SIZE = fieldSize;
   return (
     <>
       {path.map((el, ind) => (

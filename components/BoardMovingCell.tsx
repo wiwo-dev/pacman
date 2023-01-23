@@ -1,10 +1,11 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useContext } from "react";
 import { motion } from "framer-motion";
 import { Position, SPEED_MOVING_CELL_NORMAL } from "@/pacman/TypesAndSettings";
 
 type Props = { position: Position; duration?: number; children?: ReactNode; className?: string };
 
 import { FIELD_SIZE } from "@/pacman/TypesAndSettings";
+import { PacmanContext } from "@/utils/Context";
 
 export default function BoardMovingCell({
   position,
@@ -12,6 +13,9 @@ export default function BoardMovingCell({
   children,
   className,
 }: Props): JSX.Element {
+  const { fieldSize } = useContext(PacmanContext);
+  const FIELD_SIZE = fieldSize;
+
   return (
     <motion.div
       layout={position.x !== 0}

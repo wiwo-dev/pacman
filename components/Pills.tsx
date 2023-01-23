@@ -1,10 +1,13 @@
 import { Pill } from "@/pacman/Pill";
 import { FIELD_SIZE, PillType } from "@/pacman/TypesAndSettings";
-import React from "react";
+import { PacmanContext } from "@/utils/Context";
+import React, { useContext } from "react";
 
 type Props = { pills: Pill[] };
 
 function Pills({ pills }: Props) {
+  const { fieldSize } = useContext(PacmanContext);
+  const FIELD_SIZE = fieldSize;
   const classNamesForPills = "rounded-md bg-blue-600";
 
   const getComponentForPill = (pillType: PillType) => {

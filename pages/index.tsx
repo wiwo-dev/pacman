@@ -61,15 +61,10 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="max-w-screen-lg mx-auto bg-[#020216]">
-        <div className="bg-pink-600">
-          {pacmanPosition.x}:{pacmanPosition.y} || Points: {points} || Lives: {game.livesRemaining}/3 || {game.status}
-        </div>
-        <div className="bg-yellow-400">
-          <button onClick={() => setghostsPathsVisible(!ghostsPathsVisible)}>PATHS ON/OFF</button>
-        </div>
-        <section className="my-2 flex justify-center">
-          <div>
+
+      <main className="max-w-screen-lg w-fit mx-auto bg-[#020216] p-5">
+        <section className="my-2 flex justify-between gap-8 items-center md:px-[10%]">
+          <div className="w-1/2">
             <div className="flex justify-center gap-5 py-2">
               {[...Array(game.livesRemaining)].map((el, ind) => (
                 <img key={ind} src="pacman/pacman-2.png" className="w-[30px] h-[30px]" />
@@ -79,7 +74,17 @@ export default function Home() {
               <p className="text-white font-mono font-extrabold text-xl">SCORE: {points}</p>
             </div>
           </div>
-          <div className="text-white">fdfsf</div>
+          <div className="text-white font-mono font-extrabold flex flex-col gap-2 items-center w-1/2">
+            <button
+              className="bg-yellow-500 hover:bg-yellow-600 py-2 px-4 rounded-full"
+              onClick={() => setghostsPathsVisible(!ghostsPathsVisible)}>
+              PATHS ON/OFF
+            </button>
+            <p className="text-sm">
+              PM POS: {pacmanPosition.x}|{pacmanPosition.y}
+            </p>
+            <p className="text-sm">{game.status}</p>
+          </div>
         </section>
 
         <main className="bg-[#020216] flex justify-center">
