@@ -1,10 +1,10 @@
 import React from "react";
 
-type Props = { changeDirection: Function };
+type Props = { changeDirection: Function; pointerEvents?: boolean };
 
-export default function TouchScreenController({ changeDirection }: Props) {
+export default function TouchScreenController({ changeDirection, pointerEvents = true }: Props) {
   return (
-    <div className="fixed top-[100px] left-0 w-full h-full opacity-10">
+    <div className={`fixed top-[100px] left-0 w-full h-full opacity-10 ${!pointerEvents && "pointer-events-none"}`}>
       <div className="w-full h-full relative overflow-hidden">
         <div
           onClick={() => changeDirection("U")}

@@ -7,7 +7,6 @@ import { motion } from "framer-motion";
 import { BOARD_SIZE, DirectionsType } from "@/pacman";
 
 import { Game } from "@/pacman/Game";
-const game = new Game();
 
 import Walls from "@/components/Walls";
 import Pills from "@/components/Pills";
@@ -22,12 +21,14 @@ import TouchScreenController from "@/components/TouchScreenController";
 import { SPEED_MAIN, SPEED_MOVING_CELL_NORMAL, SPEED_MOVING_CELL_SLOW } from "@/pacman/TypesAndSettings";
 import { PacmanContext } from "@/utils/Context";
 
+let game = new Game();
+
 export default function Home() {
   const [pacmanPosition, setPacmanPosition] = useState(game.pacMan.getPosition());
   const [points, setPoints] = useState(game.points);
   const [pacManDirection, setPacManDirection] = useState(game.pacMan.direction);
 
-  const { windowWidth, windowHeight, fieldSize } = useContext(PacmanContext);
+  const { fieldSize } = useContext(PacmanContext);
   const FIELD_SIZE = fieldSize;
 
   const changeDirection = (intendedDirection: DirectionsType) => {
@@ -48,6 +49,7 @@ export default function Home() {
   const makeStep = () => {
     if (paused) return;
     if (game.status === "KILLED") return;
+    if (game.status === "GAME_OVER") return;
     game.makeGameStep();
     setPacmanPosition({ ...game.pacMan.getPosition() });
     setPoints(game.points);
@@ -55,6 +57,13 @@ export default function Home() {
   };
 
   const setInterval = useInterval(makeStep, SPEED_MAIN);
+
+  const restartGame = () => {
+    game = new Game();
+    setPacManDirection(game.pacMan.direction);
+    setPacmanPosition(game.pacMan.getPosition());
+    setPoints(game.points);
+  };
 
   return (
     <>
@@ -98,7 +107,6 @@ export default function Home() {
             {/* <Walls walls={game.board.walls} /> */}
             <Pills pills={game.board.pills} />
             <BoardMovingCell position={pacmanPosition}>
-              {/* <Pacman size={FIELD_SIZE} direction={game.pacMan.direction} /> */}
               <Pacman size={FIELD_SIZE} direction={pacManDirection} />
             </BoardMovingCell>
 
@@ -124,15 +132,21 @@ export default function Home() {
               </BoardMovingCell>
             ))}
             {game.status === "GAME_OVER" && (
-              <div className=" absolute p-8 bg-gray-800 bg-opacity-80 w-full h-full flex justify-center items-center flex-col">
+              <div className=" absolute p-8 bg-gray-800 bg-opacity-80 w-full h-full flex justify-center items-center flex-col gap-3">
                 <p className="animate-pulse text-5xl font-extrabold text-red-500">GAME OVER</p>
                 <p className="text-2xl font-extrabold text-red-500">POINTS: {game.points}</p>
+                <button className="bg-yellow-500 hover:bg-yellow-600 py-2 px-4 rounded-full" onClick={restartGame}>
+                  PLAY AGAIN
+                </button>
               </div>
             )}
           </Board>
         </main>
       </main>
-      <TouchScreenController changeDirection={changeDirection} />
+      <TouchScreenController
+        changeDirection={changeDirection}
+        pointerEvents={game.status === "GAME_OVER" ? false : true}
+      />
     </>
   );
 }

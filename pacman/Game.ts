@@ -2,11 +2,11 @@ import { Board } from "./Board";
 import { Ghost } from "./Ghost";
 import { Pacman } from "./Pacman";
 
-import { ENERGIZER_TIME, GHOSTS_LOCKED_TIME, Position } from "./TypesAndSettings";
+import { ENERGIZER_TIME, GAME_LIVES, GHOSTS_LOCKED_TIME, Position } from "./TypesAndSettings";
 
 export class Game {
   status: "GHOSTS_LOCKED" | "GHOSTS_GOING_TO_CORNERS" | "RUNNING" | "ENERGIZER" | "KILLED" | "GAME_OVER";
-  livesRemaining: number = 3;
+  livesRemaining: number = GAME_LIVES;
   points: number = 0;
   board: Board;
   pacMan: Pacman;
@@ -19,6 +19,7 @@ export class Game {
     this.ghosts.push(new Ghost(14, 14, this.board, this, "#00FFFF", { x: 1, y: 29 }, "blue"));
     this.ghosts.push(new Ghost(13, 14, this.board, this, "#FF0000", { x: 26, y: 1 }, "red"));
     this.ghosts.push(new Ghost(13, 14, this.board, this, "#FEC15B", { x: 26, y: 29 }, "orange"));
+    this.livesRemaining = GAME_LIVES;
   }
 
   addPoint(num: number = 1) {

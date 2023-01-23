@@ -17,6 +17,8 @@ export const POINTS_FOR_GHOST = 10;
 export const POINTS_FOR_BASIC_PILL = 1;
 export const POINTS_FOR_ENERGIZER_PILL = 5;
 
+export const GAME_LIVES = 3;
+
 export type DirectionsType = "U" | "D" | "L" | "R";
 export type WallType = "horizontal" | "vertical" | "tl" | "tr" | "bl" | "br";
 export type Position = { x: number; y: number };
