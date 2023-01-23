@@ -8,7 +8,7 @@ export const GHOSTS_LOCKED_TIME = 10; //10
 export const ENERGIZER_TIME = 30;
 
 //* animation duration 0.3 for normal and 0.6 for slower */
-export const SPEED_MAIN = 220;
+export const SPEED_MAIN = 280;
 export const SPEED_MOVING_CELL_NORMAL = SPEED_MAIN * 0.001; //0.3
 export const SPEED_MOVING_CELL_SLOW = SPEED_MAIN * 0.002; //0.6
 

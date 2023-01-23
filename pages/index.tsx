@@ -40,7 +40,7 @@ export default function Home() {
     onSpace: () => {},
   });
 
-  const [ghostsPathsVisible, setghostsPathsVisible] = useState(true);
+  const [ghostsPathsVisible, setghostsPathsVisible] = useState(false);
 
   const makeStep = () => {
     if (paused) return;
@@ -62,7 +62,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="max-w-screen-lg w-fit mx-auto bg-[#020216] p-5 relative">
+      <main className="max-w-screen-lg w-fit mx-auto bg-[#020216] p-5 relative overflow-hidden">
         <section className="my-2 flex justify-between gap-8 items-center md:px-[10%]">
           <div className="w-1/2">
             <div className="flex justify-center gap-5 py-2">
@@ -132,9 +132,9 @@ export default function Home() {
               </div>
             )}
           </Board>
-          <TouchScreenController changeDirection={changeDirection} />
         </main>
       </main>
+      <TouchScreenController changeDirection={changeDirection} />
     </>
   );
 }
