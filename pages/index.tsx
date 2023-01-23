@@ -62,7 +62,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="max-w-screen-lg w-fit mx-auto bg-[#020216] p-5">
+      <main className="max-w-screen-lg w-fit mx-auto bg-[#020216] p-5 relative">
         <section className="my-2 flex justify-between gap-8 items-center md:px-[10%]">
           <div className="w-1/2">
             <div className="flex justify-center gap-5 py-2">
@@ -131,8 +131,8 @@ export default function Home() {
                 <p className="text-2xl font-extrabold text-red-500">POINTS: {game.points}</p>
               </div>
             )}
-            <TouchScreenController changeDirection={changeDirection} />
           </Board>
+          <TouchScreenController changeDirection={changeDirection} />
         </main>
       </main>
     </>
