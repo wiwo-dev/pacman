@@ -131,7 +131,7 @@ export default function Home() {
                 <p className="text-2xl font-extrabold text-red-500">POINTS: {game.points}</p>
               </div>
             )}
-            {/* <TouchScreenController changeDirection={changeDirection} /> */}
+            <TouchScreenController changeDirection={changeDirection} />
           </Board>
         </main>
       </main>
