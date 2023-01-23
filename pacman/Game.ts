@@ -18,10 +18,10 @@ export class Game {
     this.status = "GHOSTS_LOCKED";
     this.board = new Board();
     this.pacMan = new Pacman(13, 23, this.board, this);
-    this.ghosts.push(new Ghost(14, 14, this.board, this, "#FCB5FF", { x: 1, y: 1 }, "PINK"));
-    this.ghosts.push(new Ghost(14, 14, this.board, this, "#00FFFF", { x: 1, y: 29 }, "BLUE"));
-    this.ghosts.push(new Ghost(13, 14, this.board, this, "#FF0000", { x: 26, y: 1 }, "RED"));
-    this.ghosts.push(new Ghost(13, 14, this.board, this, "#FEC15B", { x: 26, y: 29 }, "ORANGE"));
+    this.ghosts.push(new Ghost(14, 14, this.board, this, "#FCB5FF", { x: 1, y: 1 }, "pink"));
+    this.ghosts.push(new Ghost(14, 14, this.board, this, "#00FFFF", { x: 1, y: 29 }, "blue"));
+    this.ghosts.push(new Ghost(13, 14, this.board, this, "#FF0000", { x: 26, y: 1 }, "red"));
+    this.ghosts.push(new Ghost(13, 14, this.board, this, "#FEC15B", { x: 26, y: 29 }, "orange"));
   }
 
   addPoint(num: number = 1) {
