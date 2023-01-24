@@ -53,13 +53,12 @@ export class Board {
   }
 
   checkIfWall = (position: Position): boolean => {
-    const found = this.walls.filter((el) => el.position.x === position.x && el.position.y === position.y).length;
-    if (found > 0) return true;
+    if (this.walls.find((el) => el.position.x === position.x && el.position.y === position.y)) return true;
     else return false;
   };
 
   checkIfPill = (position: Position): boolean => {
-    if (this.pills.filter((el) => el.position.x === position.x && el.position.y === position.y).length > 0) return true;
+    if (this.pills.find((el) => el.position.x === position.x && el.position.y === position.y)) return true;
     else return false;
   };
 

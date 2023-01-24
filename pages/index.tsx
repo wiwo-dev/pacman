@@ -18,17 +18,17 @@ import BoardMovingCell from "@/components/BoardMovingCell";
 import BoardGrid from "@/components/BoardGrid";
 import GhostPath from "@/components/GhostPath";
 import TouchScreenController from "@/components/TouchScreenController";
-import { SPEED_MAIN, SPEED_MOVING_CELL_NORMAL, SPEED_MOVING_CELL_SLOW } from "@/pacman/TypesAndSettings";
-import { PacmanContext } from "@/utils/Context";
+import { Position, SPEED_MAIN, SPEED_MOVING_CELL_NORMAL, SPEED_MOVING_CELL_SLOW } from "@/pacman/TypesAndSettings";
+import { PacmanContext, PacmanContextType } from "@/utils/Context";
 
 let game = new Game();
 
 export default function Home() {
-  const [pacmanPosition, setPacmanPosition] = useState(game.pacMan.getPosition());
-  const [points, setPoints] = useState(game.points);
-  const [pacManDirection, setPacManDirection] = useState(game.pacMan.direction);
+  const [pacmanPosition, setPacmanPosition] = useState<Position>(game.pacMan.getPosition());
+  const [points, setPoints] = useState<number>(game.points);
+  const [pacManDirection, setPacManDirection] = useState<DirectionsType>(game.pacMan.direction);
 
-  const { fieldSize } = useContext(PacmanContext);
+  const { fieldSize } = useContext<PacmanContextType>(PacmanContext);
   const FIELD_SIZE = fieldSize;
 
   const changeDirection = (intendedDirection: DirectionsType) => {
@@ -44,7 +44,7 @@ export default function Home() {
     onSpace: () => {},
   });
 
-  const [ghostsPathsVisible, setghostsPathsVisible] = useState(false);
+  const [ghostsPathsVisible, setghostsPathsVisible] = useState<boolean>(false);
 
   const makeStep = () => {
     if (paused) return;
@@ -109,7 +109,6 @@ export default function Home() {
             <BoardMovingCell position={pacmanPosition}>
               <Pacman size={FIELD_SIZE} direction={pacManDirection} />
             </BoardMovingCell>
-
             {ghostsPathsVisible && (
               <>
                 {game.ghosts.map((el, ind) => (

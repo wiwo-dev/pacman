@@ -24,8 +24,6 @@ export type WallType = "horizontal" | "vertical" | "tl" | "tr" | "bl" | "br";
 export type Position = { x: number; y: number };
 export type PillType = "basic" | "energizer";
 
-//export type InitialGhostTarget = { x: 1, y: 1 } | { x: 1, y: 29 } | { x: 26; y: 1 } | { x: 26; y: 29 };
-
 export const keepPositionInBounds = ({ x, y }: { x: number; y: number }): { x: number; y: number } => {
   const keepNumInBounds = (pos: number, board_max: number) => {
     if (pos < 0) return board_max + pos;

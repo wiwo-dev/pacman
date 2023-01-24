@@ -143,7 +143,7 @@ export class Ghost extends Point {
     for (let i = 0; i < 3; i++) {
       this.moveNormal({ x: 14, y: 14 });
       if (this.position.x === 14 && this.position.y === 14) {
-        console.log(this.name, "reached base");
+        //console.log(this.name, "reached base");
         this.status = "LOCKED";
       }
     }

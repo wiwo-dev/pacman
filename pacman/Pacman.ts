@@ -61,7 +61,7 @@ export class Pacman extends Point {
         this.game.ghosts[ghostIndex].setEatenStatus();
         this.game.addPoint(POINTS_FOR_GHOST);
       } else {
-        console.log("KILLED");
+        //console.log("KILLED");
         this.game.handleKilledEvent();
       }
     }

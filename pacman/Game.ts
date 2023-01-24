@@ -22,11 +22,11 @@ export class Game {
     this.livesRemaining = GAME_LIVES;
   }
 
-  addPoint(num: number = 1) {
+  addPoint(num: number = 1): void {
     this.points = this.points + num;
   }
 
-  startEnergizer() {
+  startEnergizer(): void {
     this.status = "ENERGIZER";
     this.remainingEnergizerTime = ENERGIZER_TIME;
   }
@@ -74,7 +74,7 @@ export class Game {
   }
 
   handleKilledEvent() {
-    this.setStatusKilled();
+    this.status = "KILLED";
     this.livesRemaining--;
     if (this.livesRemaining === 0) {
       //GAME OVER
@@ -91,13 +91,5 @@ export class Game {
     this.ghosts.push(new Ghost(14, 14, this.board, this, "#00FFFF", { x: 1, y: 29 }, "blue"));
     this.ghosts.push(new Ghost(13, 14, this.board, this, "#FF0000", { x: 26, y: 1 }, "red"));
     this.ghosts.push(new Ghost(13, 14, this.board, this, "#FEC15B", { x: 26, y: 29 }, "orange"));
-  }
-
-  setStatusKilled() {
-    this.status = "KILLED";
-  }
-
-  setStatusGhostsLocked() {
-    this.status = "GHOSTS_LOCKED";
   }
 }

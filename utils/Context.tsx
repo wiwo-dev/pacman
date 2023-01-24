@@ -2,7 +2,7 @@ import { createContext } from "react";
 import useWindowDimensions from "./useWindowDimensions";
 import { BOARD_SIZE } from "@/pacman";
 
-interface AppContextType {
+export interface PacmanContextType {
   windowWidth: number;
   windowHeight: number;
   fieldSize: number;
@@ -12,7 +12,7 @@ type Props = {
   children: React.ReactNode;
 };
 
-export const PacmanContext = createContext<AppContextType>({
+export const PacmanContext = createContext<PacmanContextType>({
   windowHeight: 0,
   windowWidth: 0,
   fieldSize: 22,
