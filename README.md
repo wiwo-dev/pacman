@@ -38,7 +38,7 @@ Astar pathfinding algorithm is used to calculate the path of each ghost on each 
 
 **You can show the paths during the gameplay by pressing the button at the top of the screen**
 
-[Pathfinding algorithm preview](https://postimg.cc/2qZXQt5J)
+![Pathfinding algorithm preview](https://i.postimg.cc/YSnKHKBp/Screenshot-2023-01-25-at-14-23-09.png)
 
 ## Controls
 
