@@ -102,43 +102,45 @@ export default function Home() {
 
         <main className="bg-[#020216] flex justify-center">
           <Board>
-            {/* <BoardGrid /> */}
-            {/* duration 0.3 for normal and 0.6 for slower */}
-            {/* <Walls walls={game.board.walls} /> */}
-            <Pills pills={game.board.pills} />
-            <BoardMovingCell position={pacmanPosition}>
-              <Pacman size={FIELD_SIZE} direction={pacManDirection} />
-            </BoardMovingCell>
-            {ghostsPathsVisible && (
-              <>
-                {game.ghosts.map((el, ind) => (
-                  <GhostPath key={ind} path={el.path} color={el.color} />
-                ))}
-              </>
-            )}
-            {game.ghosts.map((el, ind) => (
-              <BoardMovingCell
-                key={ind}
-                position={el.position}
-                duration={
-                  el.status === "EATEN"
-                    ? SPEED_MOVING_CELL_NORMAL
-                    : game.status === "ENERGIZER"
-                    ? SPEED_MOVING_CELL_SLOW
-                    : SPEED_MOVING_CELL_NORMAL
-                }>
-                <Ghost size={FIELD_SIZE} color={el.color} name={el.name} status={el.status} />
+            <>
+              {/* <BoardGrid /> */}
+              {/* duration 0.3 for normal and 0.6 for slower */}
+              {/* <Walls walls={game.board.walls} /> */}
+              <Pills pills={game.board.pills} />
+              <BoardMovingCell position={pacmanPosition}>
+                <Pacman size={FIELD_SIZE} direction={pacManDirection} />
               </BoardMovingCell>
-            ))}
-            {game.status === "GAME_OVER" && (
-              <div className=" absolute p-8 bg-gray-800 bg-opacity-80 w-full h-full flex justify-center items-center flex-col gap-3">
-                <p className="animate-pulse text-5xl font-extrabold text-red-500">GAME OVER</p>
-                <p className="text-2xl font-extrabold text-red-500">POINTS: {game.points}</p>
-                <button className="bg-yellow-500 hover:bg-yellow-600 py-2 px-4 rounded-full" onClick={restartGame}>
-                  PLAY AGAIN
-                </button>
-              </div>
-            )}
+              {ghostsPathsVisible && (
+                <>
+                  {game.ghosts.map((el, ind) => (
+                    <GhostPath key={ind} path={el.path} color={el.color} />
+                  ))}
+                </>
+              )}
+              {game.ghosts.map((el, ind) => (
+                <BoardMovingCell
+                  key={ind}
+                  position={el.position}
+                  duration={
+                    el.status === "EATEN"
+                      ? SPEED_MOVING_CELL_NORMAL
+                      : game.status === "ENERGIZER"
+                      ? SPEED_MOVING_CELL_SLOW
+                      : SPEED_MOVING_CELL_NORMAL
+                  }>
+                  <Ghost size={FIELD_SIZE} color={el.color} name={el.name} status={el.status} />
+                </BoardMovingCell>
+              ))}
+              {game.status === "GAME_OVER" && (
+                <div className=" absolute p-8 bg-gray-800 bg-opacity-80 w-full h-full flex justify-center items-center flex-col gap-3">
+                  <p className="animate-pulse text-5xl font-extrabold text-red-500">GAME OVER</p>
+                  <p className="text-2xl font-extrabold text-red-500">POINTS: {game.points}</p>
+                  <button className="bg-yellow-500 hover:bg-yellow-600 py-2 px-4 rounded-full" onClick={restartGame}>
+                    PLAY AGAIN
+                  </button>
+                </div>
+              )}
+            </>
           </Board>
         </main>
       </main>

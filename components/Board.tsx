@@ -3,7 +3,7 @@ import { PacmanContext } from "@/utils/Context";
 
 import React, { ReactElement, useContext } from "react";
 
-type Props = { children: any };
+type Props = { children: JSX.Element | JSX.Element[] };
 
 export default function Board({ children }: Props) {
   const { windowWidth, windowHeight, fieldSize } = useContext(PacmanContext);

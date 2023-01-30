@@ -22,8 +22,12 @@ export function PacmanContextProvider({ children }: Props) {
   const { windowWidth, windowHeight } = useWindowDimensions();
 
   const getFieldSize = () => {
-    if (windowWidth > windowHeight) return (windowHeight - 180) / BOARD_SIZE.y;
-    else return (windowWidth - 5) / BOARD_SIZE.y;
+    let fieldSize;
+    if (windowWidth > windowHeight) fieldSize = (windowHeight - 180) / BOARD_SIZE.y;
+    else fieldSize = (windowWidth - 5) / BOARD_SIZE.y;
+
+    if (fieldSize > 0) return fieldSize;
+    else return -fieldSize;
   };
 
   const value = {
