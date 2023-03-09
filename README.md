@@ -20,7 +20,7 @@ The game has the following states
 - **RUNNING** that's the normal state in which the Ghosts are trying to catch Pacman. After each step, the shortest path is calculated using the Astar Pathfinder algorithm.
 - **ENERGIZER** Pacman is earning points by eating "pills". The big pills are "energizers" which start this state and make the Ghosts move in random directions. During that phaze Pacman can kill the Ghost. The killed Ghost is moved back to the base, waits there for 10 seconds and is released. First it is going towards one of the board's corners and then starts chasing Pacman.
 - **KILLED** that's when Pacman is killed by any of the Ghosts.
-- **GAME OVER** after losing 3 lives.
+- **GAME OVER** after losing 3 lifes.
 
 ### Ghost's states
 
